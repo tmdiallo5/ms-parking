@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -21,4 +22,6 @@ public class Client {
     private String lastName;
     private String email;
     private String password;
+
+
 }
