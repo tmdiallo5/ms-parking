@@ -1,5 +1,6 @@
 package com.parking.ms_parking.entities;
 
+import com.parking.ms_parking.shared.entities.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,9 @@ public class Client {
     private String lastName;
     private String email;
     private String password;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @JoinColumn(name = "address_id")
+    private Address address;
 
 
 }
