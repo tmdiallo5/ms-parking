@@ -1,0 +1,37 @@
+package com.parking.ms_parking.entities;
+
+import com.parking.ms_parking.shared.enums.Status;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name="booking")
+public class Booking {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
+    private Status status;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @JoinColumn(name = "client_id")
+    private Client client;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @JoinColumn(name = "car_id")
+    private Car car;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @JoinColumn(name = "parkingspot_id")
+    private Parkingspot parkingspot;
+
+}
