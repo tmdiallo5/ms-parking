@@ -29,7 +29,7 @@ public class ClientService {
         this.validationService.validateEmail(client.getEmail());
         Optional <Client> clientDB = clientRepository.findByEmail(client.getEmail());
         if (clientDB.isPresent()) {
-            throw new RuntimeException("client already exists");
+           throw new RuntimeException("client already exists");
         }
 
         this.clientRepository.save(client);

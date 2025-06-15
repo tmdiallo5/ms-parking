@@ -21,8 +21,11 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private LocalDateTime startDateTime;
+
     private LocalDateTime endDateTime;
+    @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "client_id")
