@@ -24,6 +24,12 @@ public class BookingService {
     private final ClientRepository clientRepository;
 
     public void createBooking(Booking booking) {
+    //Faire une requete voir si le spot est libre. Faire une requete dans la base en fonction du spot
+
+        Optional <Booking> bookingOptional = bookingRepository.findByParkingspotNumber(booking.getParkingspot().getNumber());
+        if (bookingOptional.isPresent()) {
+            throw new RuntimeException("Booking already exists");
+        }
 
         Optional<Address> optionalAddress = this.addressesRepository.findByTagAndStreetAndCityAndZipAndCountry(
                 booking.getClient().getAddress().getTag(),
