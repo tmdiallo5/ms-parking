@@ -7,6 +7,7 @@ import com.parking.ms_parking.shared.services.AddressesService;
 import com.parking.ms_parking.shared.services.ValidationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class ClientService {
     private final AddressesService addressesService;
     private final ClientRepository clientRepository;
     private final ValidationService validationService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     public void create(Client client) {
@@ -26,6 +28,10 @@ public class ClientService {
             Address address = this.addressesService.creat(client.getAddress());
             client.setAddress(address);
         }
+        String userPassword = client.getPassword();
+        String encodedPassword = passwordEncoder.encode(userPassword);
+        client.setPassword(encodedPassword);
+
         this.validationService.validateEmail(client.getEmail());
         Optional <Client> clientDB = clientRepository.findByEmail(client.getEmail());
         if (clientDB.isPresent()) {
@@ -34,6 +40,8 @@ public class ClientService {
 
         this.clientRepository.save(client);
     }
+
+
 
     public List<Client> search() {
         return this.clientRepository.findAll();
