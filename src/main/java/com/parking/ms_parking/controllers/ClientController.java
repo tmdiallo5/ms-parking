@@ -18,11 +18,7 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE )
-    public void create(@RequestBody Client client) {
-        this.clientService.create(client);
-    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Client> search() {
         return this.clientService.search();

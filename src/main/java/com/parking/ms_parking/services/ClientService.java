@@ -17,29 +17,10 @@ import java.util.Optional;
 @Service
 public class ClientService {
 
-    private final AddressesService addressesService;
+
     private final ClientRepository clientRepository;
-    private final ValidationService validationService;
-    private final BCryptPasswordEncoder passwordEncoder;
 
 
-    public void create(Client client) {
-        if(client.getAddress() != null) {
-            Address address = this.addressesService.creat(client.getAddress());
-            client.setAddress(address);
-        }
-        String userPassword = client.getPassword();
-        String encodedPassword = passwordEncoder.encode(userPassword);
-        client.setPassword(encodedPassword);
-
-        this.validationService.validateEmail(client.getEmail());
-        Optional <Client> clientDB = clientRepository.findByEmail(client.getEmail());
-        if (clientDB.isPresent()) {
-           throw new RuntimeException("client already exists");
-        }
-
-        this.clientRepository.save(client);
-    }
 
 
 

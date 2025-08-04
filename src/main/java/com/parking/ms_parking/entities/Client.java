@@ -24,7 +24,7 @@ public class Client {
     private String email;
     private String password;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = true)
     private Address address;
 
 
