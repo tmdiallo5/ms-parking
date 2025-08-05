@@ -2,10 +2,8 @@ package com.parking.ms_parking.authentification;
 
 import com.parking.ms_parking.entities.Client;
 import com.parking.ms_parking.entities.ClientDTO;
-import com.parking.ms_parking.entities.ClientMapping;
+import com.parking.ms_parking.entities.ClientMapper;
 import com.parking.ms_parking.repository.ClientRepository;
-import com.parking.ms_parking.shared.entities.Address;
-import com.parking.ms_parking.shared.services.AddressesService;
 import com.parking.ms_parking.shared.services.ValidationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +20,7 @@ public class AuthentificationService {
     private final ClientRepository clientRepository;
     private final ValidationService validationService;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final ClientMapping clientMapping;
+    private final ClientMapper clientMapper;
 
 
     public void create(ClientDTO clientDTO) {
@@ -33,7 +31,7 @@ public class AuthentificationService {
         }
 
         String userPassword = clientDTO.password();
-        Client client = this.clientMapping.dtoToEntity(clientDTO);
+        Client client = this.clientMapper.dtoToEntity(clientDTO);
         String encodedPassword = passwordEncoder.encode(userPassword);
         client.setPassword(encodedPassword);
 

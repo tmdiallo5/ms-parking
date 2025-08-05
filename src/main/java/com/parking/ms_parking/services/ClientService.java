@@ -1,6 +1,8 @@
 package com.parking.ms_parking.services;
 
 import com.parking.ms_parking.entities.Client;
+import com.parking.ms_parking.entities.ClientDTO;
+import com.parking.ms_parking.entities.ClientMapper;
 import com.parking.ms_parking.repository.ClientRepository;
 import com.parking.ms_parking.shared.entities.Address;
 import com.parking.ms_parking.shared.services.AddressesService;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -19,13 +23,14 @@ public class ClientService {
 
 
     private final ClientRepository clientRepository;
+    private final ClientMapper clientmapper;
 
 
 
+    public Set<ClientDTO> search() {
+        List<Client> clients = this.clientRepository.findAll();
+        return clients.stream().map(this.clientmapper::entityToDto).collect(Collectors.toSet());
 
-
-    public List<Client> search() {
-        return this.clientRepository.findAll();
     }
 
     public Client read(int id) {

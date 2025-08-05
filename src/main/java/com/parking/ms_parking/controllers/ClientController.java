@@ -1,6 +1,7 @@
 package com.parking.ms_parking.controllers;
 
 import com.parking.ms_parking.entities.Client;
+import com.parking.ms_parking.entities.ClientDTO;
 import com.parking.ms_parking.services.ClientService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @Slf4j
@@ -20,7 +22,7 @@ public class ClientController {
 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Client> search() {
+    public Set<ClientDTO> search() {
         return this.clientService.search();
     }
     @GetMapping(path = "{id}")
