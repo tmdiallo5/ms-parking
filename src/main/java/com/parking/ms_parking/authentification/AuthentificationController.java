@@ -1,6 +1,7 @@
 package com.parking.ms_parking.authentification;
 
 import com.parking.ms_parking.entities.Client;
+import com.parking.ms_parking.entities.ClientDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,7 +17,7 @@ public class AuthentificationController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "sign-up")
-    public void create(@RequestBody Client client) {
-        this.authentificationService.create(client);
+    public void create(@RequestBody ClientDTO clientDTO) {
+        this.authentificationService.create(clientDTO);
     }
 }

@@ -1,6 +1,8 @@
 package com.parking.ms_parking.authentification;
 
 import com.parking.ms_parking.entities.Client;
+import com.parking.ms_parking.entities.ClientDTO;
+import com.parking.ms_parking.entities.ClientMapping;
 import com.parking.ms_parking.repository.ClientRepository;
 import com.parking.ms_parking.shared.entities.Address;
 import com.parking.ms_parking.shared.services.AddressesService;
@@ -20,19 +22,23 @@ public class AuthentificationService {
     private final ClientRepository clientRepository;
     private final ValidationService validationService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ClientMapping clientMapping;
 
 
-    public void create(Client client) {
+    public void create(ClientDTO clientDTO) {
 
-        String userPassword = client.getPassword();
+        Optional<Client> clientDB = clientRepository.findByEmail(clientDTO.email());
+        if (clientDB.isPresent()) {
+            throw new RuntimeException("client already exists");
+        }
+
+        String userPassword = clientDTO.password();
+        Client client = this.clientMapping.dtoToEntity(clientDTO);
         String encodedPassword = passwordEncoder.encode(userPassword);
         client.setPassword(encodedPassword);
 
         this.validationService.validateEmail(client.getEmail());
-        Optional<Client> clientDB = clientRepository.findByEmail(client.getEmail());
-        if (clientDB.isPresent()) {
-            throw new RuntimeException("client already exists");
-        }
+
 
         this.clientRepository.save(client);
     }

@@ -31,7 +31,7 @@ public class BookingService {
             throw new RuntimeException("Booking already exists");
         }
 
-        Optional<Address> optionalAddress = this.addressesRepository.findByTagAndStreetAndCityAndZipAndCountry(
+        List<Address> resultAddress = this.addressesRepository.findByTagAndStreetAndCityAndZipAndCountry(
                 booking.getClient().getAddress().getTag(),
                 booking.getClient().getAddress().getStreet(),
                 booking.getClient().getAddress().getCity(),
@@ -40,8 +40,8 @@ public class BookingService {
 
         );
         Address address;
-        if (optionalAddress.isPresent()) {
-            address = optionalAddress.get();
+        if (!resultAddress.isEmpty()) {
+            address = resultAddress.get(0);
         }
         else {
             address = this.addressesRepository.save(booking.getClient().getAddress());
