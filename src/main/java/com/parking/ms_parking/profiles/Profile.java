@@ -1,4 +1,4 @@
-package com.parking.ms_parking.entities;
+package com.parking.ms_parking.profiles;
 
 import com.parking.ms_parking.shared.entities.Address;
 import jakarta.persistence.*;

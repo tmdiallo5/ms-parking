@@ -1,4 +1,4 @@
-package com.parking.ms_parking.entities;
+package com.parking.ms_parking.profiles;
 
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,5 @@
-package com.parking.ms_parking.services;
+package com.parking.ms_parking.profiles;
 
-import com.parking.ms_parking.entities.Profile;
-import com.parking.ms_parking.entities.ProfileDTO;
-import com.parking.ms_parking.entities.ProfileMapper;
-import com.parking.ms_parking.repository.ClientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,22 +11,22 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
-public class ClientService {
+public class ProfileService {
 
 
-    private final ClientRepository clientRepository;
+    private final ProfileRepository profileRepository;
     private final ProfileMapper clientmapper;
 
 
 
     public Set<ProfileDTO> search() {
-        List<Profile> profiles = this.clientRepository.findAll();
+        List<Profile> profiles = this.profileRepository.findAll();
         return profiles.stream().map(this.clientmapper::entityToDto).collect(Collectors.toSet());
 
     }
 
     public Profile read(int id) {
-        Optional<Profile> client =  this.clientRepository.findById(id);
+        Optional<Profile> client =  this.profileRepository.findById(id);
         return client.orElseThrow(() -> new EntityNotFoundException("Client not found"));
     }
 
@@ -41,11 +37,11 @@ public class ClientService {
         profileDataBase.setEmail(profile.getEmail());
         profileDataBase.setPassword(profile.getPassword());
 
-        profileDataBase = this.clientRepository.save(profileDataBase);
+        profileDataBase = this.profileRepository.save(profileDataBase);
         return profileDataBase;
     }
 
     public void delete(int id) {
-        this.clientRepository.deleteById(id);
+        this.profileRepository.deleteById(id);
     }
 }

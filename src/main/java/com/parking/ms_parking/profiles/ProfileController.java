@@ -1,8 +1,5 @@
-package com.parking.ms_parking.controllers;
+package com.parking.ms_parking.profiles;
 
-import com.parking.ms_parking.entities.Profile;
-import com.parking.ms_parking.entities.ProfileDTO;
-import com.parking.ms_parking.services.ClientService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,29 +11,29 @@ import java.util.Set;
 @AllArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("client")
-public class ClientController {
+@RequestMapping("profile")
+public class ProfileController {
 
-    private final ClientService clientService;
+    private final ProfileService profileService;
 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Set<ProfileDTO> search() {
-        return this.clientService.search();
+        return this.profileService.search();
     }
     @GetMapping(path = "{id}")
     public Profile read(@PathVariable int id) {
-            return this.clientService.read(id);
+            return this.profileService.read(id);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(path = "{id}")
     public Profile update(@PathVariable int id, @RequestBody Profile profile) {
-        return this.clientService.update(id, profile);
+        return this.profileService.update(id, profile);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "{id}")
     public void delete(@PathVariable int id) {
-        this.clientService.delete(id);
+        this.profileService.delete(id);
     }
 
 }

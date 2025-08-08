@@ -1,7 +1,12 @@
-package com.parking.ms_parking.services;
+package com.parking.ms_parking.booking;
 
-import com.parking.ms_parking.entities.*;
-import com.parking.ms_parking.repository.*;
+import com.parking.ms_parking.car.Car;
+import com.parking.ms_parking.car.CarRepository;
+import com.parking.ms_parking.parking.Parking;
+import com.parking.ms_parking.parking.ParkingsRepository;
+import com.parking.ms_parking.parkingspot.Parkingspot;
+import com.parking.ms_parking.parkingspot.ParkingspotRepository;
+import com.parking.ms_parking.profiles.*;
 import com.parking.ms_parking.shared.entities.Address;
 import com.parking.ms_parking.shared.services.AddressesRepository;
 import lombok.AllArgsConstructor;
@@ -19,7 +24,7 @@ public class BookingService {
     private final ParkingspotRepository parkingspotRepository;
     private final CarRepository carRepository;
     private final BookingRepository bookingRepository;
-    private final ClientRepository clientRepository;
+    private final ProfileRepository profileRepository;
 
     public void createBooking(Booking booking) {
     //Faire une requete voir si le spot est libre. Faire une requete dans la base en fonction du spot
@@ -47,13 +52,13 @@ public class BookingService {
         booking.getProfile().setAddress(address);
 
 
-        Optional<Profile> optionalClient = this.clientRepository.findByEmail(booking.getProfile().getEmail());
+        Optional<Profile> optionalClient = this.profileRepository.findByEmail(booking.getProfile().getEmail());
         Profile profile;
         if (optionalClient.isPresent()) {
             profile = optionalClient.get();
         }
         else {
-            profile = this.clientRepository.save(booking.getProfile());
+            profile = this.profileRepository.save(booking.getProfile());
         }
 
 

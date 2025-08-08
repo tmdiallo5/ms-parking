@@ -1,9 +1,6 @@
 package com.parking.ms_parking.authentification;
 
-import com.parking.ms_parking.entities.Profile;
-import com.parking.ms_parking.entities.ProfileDTO;
-import com.parking.ms_parking.entities.ProfileMapper;
-import com.parking.ms_parking.repository.ClientRepository;
+import com.parking.ms_parking.profiles.*;
 import com.parking.ms_parking.shared.services.ValidationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,15 +14,16 @@ import java.util.Optional;
 @Service
 public class AuthentificationService {
 
-    private final ClientRepository clientRepository;
+    private final ProfileRepository profileRepository;
     private final ValidationService validationService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ProfileMapper profileMapper;
+    private final RolesRepository rolesRepository;
 
 
     public void create(ProfileDTO profileDTO) {
 
-        Optional<Profile> clientDB = clientRepository.findByEmail(profileDTO.email());
+        Optional<Profile> clientDB = profileRepository.findByEmail(profileDTO.email());
         if (clientDB.isPresent()) {
             throw new RuntimeException("client already exists");
         }
@@ -35,9 +33,11 @@ public class AuthentificationService {
         String encodedPassword = passwordEncoder.encode(userPassword);
         profile.setPassword(encodedPassword);
 
+        Role role = this.rolesRepository.findByName("CLIENT");
+        profile.setRole(role);
         this.validationService.validateEmail(profile.getEmail());
 
 
-        this.clientRepository.save(profile);
+        this.profileRepository.save(profile);
     }
 }

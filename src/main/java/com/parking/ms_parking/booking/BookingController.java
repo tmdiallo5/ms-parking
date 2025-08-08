@@ -1,7 +1,5 @@
-package com.parking.ms_parking.controllers;
+package com.parking.ms_parking.booking;
 
-import com.parking.ms_parking.entities.Booking;
-import com.parking.ms_parking.services.BookingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

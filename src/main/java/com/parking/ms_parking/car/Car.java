@@ -1,5 +1,6 @@
-package com.parking.ms_parking.entities;
+package com.parking.ms_parking.car;
 
+import com.parking.ms_parking.profiles.Profile;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

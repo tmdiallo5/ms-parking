@@ -1,6 +1,6 @@
 package com.parking.ms_parking.authentification;
 
-import com.parking.ms_parking.entities.ProfileDTO;
+import com.parking.ms_parking.profiles.ProfileDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

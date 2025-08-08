@@ -1,6 +1,5 @@
-package com.parking.ms_parking.repository;
+package com.parking.ms_parking.car;
 
-import com.parking.ms_parking.entities.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

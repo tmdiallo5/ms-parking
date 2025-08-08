@@ -1,5 +1,6 @@
-package com.parking.ms_parking.entities;
+package com.parking.ms_parking.parking;
 
+import com.parking.ms_parking.shared.entities.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,16 +12,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="parkingspot")
-public class Parkingspot {
+@Table(name = "parking")
+public class Parking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String number;
-    private String type;
-    private double latitude;
-    private double longitude;
+    private String name;
+    private int capacity;
+
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(name = "parking_id")
-    private  Parking parking;
+    @JoinColumn(name = "address_id")
+    private Address address;
+
 }
