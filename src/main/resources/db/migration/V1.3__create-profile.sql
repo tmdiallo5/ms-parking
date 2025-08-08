@@ -1,6 +1,6 @@
 
 create table
-    client(
+    profile(
               id int auto_increment primary key,
               first_Name varchar(30),
               last_Name varchar(30),

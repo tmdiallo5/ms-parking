@@ -1,4 +1,4 @@
-INSERT INTO client (`first_Name`, `last_Name`, `email`, `password`, `address_id`)
+INSERT INTO profile (`first_Name`, `last_Name`, `email`, `password`, `address_id`)
 VALUES
     ('cillum', 'quis', 'sybilmartinez@artworlds.com', 'skjdblzvgh', (select address_id from addresses where tag = 'CITY_HALL' LIMIT 1)),
    ('duis', 'quis', 'amdomartinez@artworlds.com', 'owhjnczwzkc', (select address_id from addresses where tag = 'CITY_HALL' LIMIT 1)),

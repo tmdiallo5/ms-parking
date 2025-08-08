@@ -1,9 +1,6 @@
 package com.parking.ms_parking.entities;
 
-import com.parking.ms_parking.shared.entities.Address;
-import jakarta.persistence.*;
-
-public record ClientDTO(
+public record ProfileDTO(
 
          String firstName,
          String lastName,

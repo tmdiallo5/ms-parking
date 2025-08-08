@@ -1,12 +1,11 @@
 package com.parking.ms_parking.entities;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClientMapper {
-    public Client dtoToEntity(ClientDTO dto) {
-        Client entity = new Client();
+public class ProfileMapper {
+    public Profile dtoToEntity(ProfileDTO dto) {
+        Profile entity = new Profile();
         entity.setPassword(dto.password());
         entity.setFirstName(dto.firstName());
         entity.setLastName(dto.lastName());
@@ -14,8 +13,8 @@ public class ClientMapper {
         return entity;
     }
 
-    public ClientDTO entityToDto(Client entity) {
-        return new ClientDTO(
+    public ProfileDTO entityToDto(Profile entity) {
+        return new ProfileDTO(
                 entity.getFirstName(),
                 entity.getLastName(),
                 entity.getEmail(),

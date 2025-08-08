@@ -1,7 +1,7 @@
 package com.parking.ms_parking.controllers;
 
-import com.parking.ms_parking.entities.Client;
-import com.parking.ms_parking.entities.ClientDTO;
+import com.parking.ms_parking.entities.Profile;
+import com.parking.ms_parking.entities.ProfileDTO;
 import com.parking.ms_parking.services.ClientService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -22,17 +21,17 @@ public class ClientController {
 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Set<ClientDTO> search() {
+    public Set<ProfileDTO> search() {
         return this.clientService.search();
     }
     @GetMapping(path = "{id}")
-    public Client read(@PathVariable int id) {
+    public Profile read(@PathVariable int id) {
             return this.clientService.read(id);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(path = "{id}")
-    public Client update(@PathVariable int id, @RequestBody Client client) {
-        return this.clientService.update(id, client);
+    public Profile update(@PathVariable int id, @RequestBody Profile profile) {
+        return this.clientService.update(id, profile);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "{id}")

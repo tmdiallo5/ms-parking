@@ -13,8 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "client")
-public class Client {
+@Table(name = "profile")
+public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

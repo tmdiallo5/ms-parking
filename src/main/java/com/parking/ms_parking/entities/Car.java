@@ -20,5 +20,5 @@ public class Car {
     private String type;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "client_id")
-    private Client client;
+    private Profile profile;
 }

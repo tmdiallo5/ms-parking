@@ -7,8 +7,6 @@ import com.parking.ms_parking.shared.services.AddressesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,11 +30,11 @@ public class BookingService {
         }
 
         List<Address> resultAddress = this.addressesRepository.findByTagAndStreetAndCityAndZipAndCountry(
-                booking.getClient().getAddress().getTag(),
-                booking.getClient().getAddress().getStreet(),
-                booking.getClient().getAddress().getCity(),
-                booking.getClient().getAddress().getZip(),
-                booking.getClient().getAddress().getCountry()
+                booking.getProfile().getAddress().getTag(),
+                booking.getProfile().getAddress().getStreet(),
+                booking.getProfile().getAddress().getCity(),
+                booking.getProfile().getAddress().getZip(),
+                booking.getProfile().getAddress().getCountry()
 
         );
         Address address;
@@ -44,18 +42,18 @@ public class BookingService {
             address = resultAddress.get(0);
         }
         else {
-            address = this.addressesRepository.save(booking.getClient().getAddress());
+            address = this.addressesRepository.save(booking.getProfile().getAddress());
         }
-        booking.getClient().setAddress(address);
+        booking.getProfile().setAddress(address);
 
 
-        Optional<Client> optionalClient = this.clientRepository.findByEmail(booking.getClient().getEmail());
-        Client client;
+        Optional<Profile> optionalClient = this.clientRepository.findByEmail(booking.getProfile().getEmail());
+        Profile profile;
         if (optionalClient.isPresent()) {
-            client = optionalClient.get();
+            profile = optionalClient.get();
         }
         else {
-            client = this.clientRepository.save(booking.getClient());
+            profile = this.clientRepository.save(booking.getProfile());
         }
 
 
@@ -65,7 +63,7 @@ public class BookingService {
             car = optionalCar.get();
         }
         else {
-            booking.getCar().setClient(client);
+            booking.getCar().setProfile(profile);
             car = this.carRepository.save(booking.getCar());
         }
 
@@ -90,10 +88,10 @@ public class BookingService {
 
             parkingspot = this.parkingspotRepository.save(booking.getParkingspot());
         }
-        car.setClient(client);
+        car.setProfile(profile);
         booking.setCar(car);
         booking.setParkingspot(parkingspot);
-        booking.setClient(client);
+        booking.setProfile(profile);
 
 
 

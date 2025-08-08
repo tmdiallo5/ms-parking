@@ -1,1 +1,1 @@
-ALTER TABLE client MODIFY password VARCHAR(255);
+ALTER TABLE profile MODIFY password VARCHAR(255);

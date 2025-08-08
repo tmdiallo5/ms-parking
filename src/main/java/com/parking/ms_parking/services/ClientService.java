@@ -1,15 +1,11 @@
 package com.parking.ms_parking.services;
 
-import com.parking.ms_parking.entities.Client;
-import com.parking.ms_parking.entities.ClientDTO;
-import com.parking.ms_parking.entities.ClientMapper;
+import com.parking.ms_parking.entities.Profile;
+import com.parking.ms_parking.entities.ProfileDTO;
+import com.parking.ms_parking.entities.ProfileMapper;
 import com.parking.ms_parking.repository.ClientRepository;
-import com.parking.ms_parking.shared.entities.Address;
-import com.parking.ms_parking.shared.services.AddressesService;
-import com.parking.ms_parking.shared.services.ValidationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,30 +19,30 @@ public class ClientService {
 
 
     private final ClientRepository clientRepository;
-    private final ClientMapper clientmapper;
+    private final ProfileMapper clientmapper;
 
 
 
-    public Set<ClientDTO> search() {
-        List<Client> clients = this.clientRepository.findAll();
-        return clients.stream().map(this.clientmapper::entityToDto).collect(Collectors.toSet());
+    public Set<ProfileDTO> search() {
+        List<Profile> profiles = this.clientRepository.findAll();
+        return profiles.stream().map(this.clientmapper::entityToDto).collect(Collectors.toSet());
 
     }
 
-    public Client read(int id) {
-        Optional<Client> client =  this.clientRepository.findById(id);
+    public Profile read(int id) {
+        Optional<Profile> client =  this.clientRepository.findById(id);
         return client.orElseThrow(() -> new EntityNotFoundException("Client not found"));
     }
 
-    public Client update(int id, Client client) {
-        Client clientDataBase = this.read(id);
-        clientDataBase.setFirstName(client.getFirstName());
-        clientDataBase.setLastName(client.getLastName());
-        clientDataBase.setEmail(client.getEmail());
-        clientDataBase.setPassword(client.getPassword());
+    public Profile update(int id, Profile profile) {
+        Profile profileDataBase = this.read(id);
+        profileDataBase.setFirstName(profile.getFirstName());
+        profileDataBase.setLastName(profile.getLastName());
+        profileDataBase.setEmail(profile.getEmail());
+        profileDataBase.setPassword(profile.getPassword());
 
-        clientDataBase = this.clientRepository.save(clientDataBase);
-        return clientDataBase;
+        profileDataBase = this.clientRepository.save(profileDataBase);
+        return profileDataBase;
     }
 
     public void delete(int id) {
