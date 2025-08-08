@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,7 +42,16 @@ public class Profile implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        //add Roles
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
+
+        //add permissions
+        for (Permission permission : role.getPermissions()) {
+            authorities.add(new SimpleGrantedAuthority(permission.getName()));
+        }
+        return authorities;
     }
 
     @Override
