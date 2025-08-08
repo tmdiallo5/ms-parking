@@ -24,8 +24,11 @@ public class Profile {
     private String email;
     private String password;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(name = "address_id", nullable = true)
+    @JoinColumn(name = "address_id")
     private Address address;
 
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @JoinColumn(name = "roles_id")
+    private Role role;
 
 }
