@@ -1,6 +1,8 @@
 package com.parking.ms_parking.authentification;
 
 import com.parking.ms_parking.profiles.*;
+import com.parking.ms_parking.security.activations.Activation;
+import com.parking.ms_parking.security.activations.ActivationsService;
 import com.parking.ms_parking.shared.services.ValidationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ public class AuthentificationService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final ProfileMapper profileMapper;
     private final RolesRepository rolesRepository;
+    private final ActivationsService activationsService;
 
 
     public void create(ProfileDTO profileDTO) {
@@ -38,6 +41,8 @@ public class AuthentificationService {
         this.validationService.validateEmail(profile.getEmail());
 
 
-        this.profileRepository.save(profile);
+        profile = this.profileRepository.save(profile);
+        Activation activation = this.activationsService.create(profile);
+        log.info("The activation code for the {} is {}: ", profile.getEmail(), activation.getUserCode());
     }
 }
