@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @AllArgsConstructor
 @RequestMapping(consumes = APPLICATION_JSON_VALUE)
@@ -17,5 +19,11 @@ public class AuthentificationController {
     @PostMapping(path = "sign-up")
     public void create(@RequestBody ProfileDTO profileDTO) {
         this.authentificationService.create(profileDTO);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "activate")
+    public void activate(@RequestBody Map<String, String> parameters) {
+        this.authentificationService.activate(parameters);
     }
 }

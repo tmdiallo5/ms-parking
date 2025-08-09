@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -30,5 +32,21 @@ public class ActivationsService {
                 .profiles(profile)
                 .build();
         return this.activationsRepository.save(activation);
+    }
+
+    public Profile validateAndReturnProfile(Map<String, String> parameters) {
+       List<Activation> activations = this.activationsRepository.findAllByActiveAndDesactivationAfter(true, LocalDateTime.now());
+      activations = activations.stream().filter(activation ->  passwordEncoder.matches(
+               parameters.get("code"),
+               activation.getCode()
+               )).toList();
+
+      if (activations.isEmpty()) {
+          throw new RuntimeException("Activation code not found");
+      }
+      Activation activation = activations.getFirst();
+      activation.setActive(Boolean.FALSE);
+      this.activationsRepository.save(activation);
+      return activation.getProfiles();
     }
 }

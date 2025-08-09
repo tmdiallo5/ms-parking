@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -43,6 +44,12 @@ public class AuthentificationService {
 
         profile = this.profileRepository.save(profile);
         Activation activation = this.activationsService.create(profile);
-        log.info("The activation code for the {} is {}: ", profile.getEmail(), activation.getUserCode());
+        log.info("The activation code for the {} is: {} ", profile.getEmail(), activation.getUserCode());
+    }
+
+    public void activate(Map<String, String> parameters) {
+        Profile profile = this.activationsService.validateAndReturnProfile(parameters);
+        profile.setActive(true);
+        this.profileRepository.save(profile);
     }
 }
