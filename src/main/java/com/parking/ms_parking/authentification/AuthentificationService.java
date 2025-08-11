@@ -1,5 +1,6 @@
 package com.parking.ms_parking.authentification;
 
+import com.parking.ms_parking.notifications.EmailsService;
 import com.parking.ms_parking.profiles.*;
 import com.parking.ms_parking.security.activations.Activation;
 import com.parking.ms_parking.security.activations.ActivationsService;
@@ -23,7 +24,7 @@ public class AuthentificationService {
     private final ProfileMapper profileMapper;
     private final RolesRepository rolesRepository;
     private final ActivationsService activationsService;
-
+    private final EmailsService emailsService;
 
     public void create(ProfileDTO profileDTO) {
 
@@ -45,6 +46,15 @@ public class AuthentificationService {
         profile = this.profileRepository.save(profile);
         Activation activation = this.activationsService.create(profile);
         log.info("The activation code for the {} is: {} ", profile.getEmail(), activation.getUserCode());
+        this.emailsService.send(
+                Map.of(
+                        "email", profile.getEmail(),
+                        "name", String.format("%S %S", profile.getFirstName(), profile.getLastName()),
+                        "code", "" + activation.getUserCode(),
+                        "template", "activation-code.ftl"
+                )
+        );
+
     }
 
     public void activate(Map<String, String> parameters) {
