@@ -7,6 +7,9 @@ import com.parking.ms_parking.security.activations.ActivationsService;
 import com.parking.ms_parking.shared.services.ValidationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 @AllArgsConstructor
 @Service
-public class AuthentificationService {
+public class AuthentificationService implements UserDetailsService {
 
     private final ProfileRepository profileRepository;
     private final ValidationService validationService;
@@ -61,5 +64,10 @@ public class AuthentificationService {
         Profile profile = this.activationsService.validateAndReturnProfile(parameters);
         profile.setActive(true);
         this.profileRepository.save(profile);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.profileRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("No user matches the entered criteria"));
     }
 }
