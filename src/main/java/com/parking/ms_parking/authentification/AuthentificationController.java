@@ -22,6 +22,12 @@ public class AuthentificationController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "sign-in")
+    public void login(@RequestBody Map<String, String> parameters) {
+
+    }
+
+
     @PostMapping(path = "activate")
     public void activate(@RequestBody Map<String, String> parameters) {
         this.authentificationService.activate(parameters);
