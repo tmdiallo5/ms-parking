@@ -19,8 +19,6 @@ public class Parkingspot {
     private int id;
     private String number;
     private String type;
-    private double latitude;
-    private double longitude;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "parking_id")
     private Parking parking;

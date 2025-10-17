@@ -15,13 +15,13 @@ public class ProfileService {
 
 
     private final ProfileRepository profileRepository;
-    private final ProfileMapper clientmapper;
+    private final ProfileMapper profileMapper;
 
 
 
     public Set<ProfileDTO> search() {
         List<Profile> profiles = this.profileRepository.findAll();
-        return profiles.stream().map(this.clientmapper::entityToDto).collect(Collectors.toSet());
+        return profiles.stream().map(this.profileMapper::entityToDto).collect(Collectors.toSet());
 
     }
 

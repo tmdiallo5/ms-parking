@@ -29,7 +29,7 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "profile_id")
     private Profile profile;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "car_id")

@@ -17,9 +17,10 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String immatriculation;
+    @Column(name = "registration_number")
+    private String registrationNumber;
     private String type;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 }

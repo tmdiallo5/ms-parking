@@ -7,6 +7,7 @@ import com.parking.ms_parking.parking.ParkingsRepository;
 import com.parking.ms_parking.parkingspot.Parkingspot;
 import com.parking.ms_parking.parkingspot.ParkingspotRepository;
 import com.parking.ms_parking.profiles.*;
+import com.parking.ms_parking.security.services.SecurityService;
 import com.parking.ms_parking.shared.entities.Address;
 import com.parking.ms_parking.shared.services.AddressesRepository;
 import lombok.AllArgsConstructor;
@@ -25,86 +26,53 @@ public class BookingService {
     private final CarRepository carRepository;
     private final BookingRepository bookingRepository;
     private final ProfileRepository profileRepository;
+    private final SecurityService securityService;
+
 
     public void createBooking(Booking booking) {
-    //Faire une requete voir si le spot est libre. Faire une requete dans la base en fonction du spot
+       Profile profile =  this.securityService.getCurrentProfile();
+        booking.setProfile(profile);
 
-        Optional <Booking> bookingOptional = bookingRepository.findByParkingspotNumber(booking.getParkingspot().getNumber());
-        if (bookingOptional.isPresent()) {
-            throw new RuntimeException("Booking already exists");
-        }
+       if (booking.getStartDateTime()==null || booking.getEndDateTime()==null) {
+           throw new IllegalArgumentException("startDateTime and endDateTime fields are required");
+       }
 
-        List<Address> resultAddress = this.addressesRepository.findByTagAndStreetAndCityAndZipAndCountry(
-                booking.getProfile().getAddress().getTag(),
-                booking.getProfile().getAddress().getStreet(),
-                booking.getProfile().getAddress().getCity(),
-                booking.getProfile().getAddress().getZip(),
-                booking.getProfile().getAddress().getCountry()
+       if (booking.getParkingspot().getNumber()!=null) {
+          Optional<Parkingspot> spot =  this.parkingspotRepository.findByNumber(booking.getParkingspot().getNumber());
+          booking.setParkingspot(spot.orElseThrow(() -> new RuntimeException("Parkingspot not found")));
+       }
 
-        );
-        Address address;
-        if (!resultAddress.isEmpty()) {
-            address = resultAddress.get(0);
-        }
-        else {
-            address = this.addressesRepository.save(booking.getProfile().getAddress());
-        }
-        booking.getProfile().setAddress(address);
-
-
-        Optional<Profile> optionalClient = this.profileRepository.findByEmail(booking.getProfile().getEmail());
-        Profile profile;
-        if (optionalClient.isPresent()) {
-            profile = optionalClient.get();
-        }
-        else {
-            profile = this.profileRepository.save(booking.getProfile());
-        }
-
-
-        Optional<Car> optionalCar = this.carRepository.findByImmatriculation(booking.getCar().getImmatriculation());
-        Car car;
+       if(booking.getCar()==null || booking.getCar().getRegistrationNumber()==null) {
+           throw new IllegalArgumentException("carRegistrationNumber field is required");
+       }
+        String reg = booking.getCar().getRegistrationNumber();
+       Car car;
+        Optional<Car> optionalCar = this.carRepository.findByRegistrationNumberAndProfile(reg, profile);
         if (optionalCar.isPresent()) {
             car = optionalCar.get();
         }
         else {
-            booking.getCar().setProfile(profile);
-            car = this.carRepository.save(booking.getCar());
+            Car car1 = new Car();
+            car1.setRegistrationNumber(reg);
+            car1.setProfile(profile);
+            car1.setType(booking.getCar().getType());
+            car = this.carRepository.save(car1);
         }
-
-        Optional<Parking> optionalParking = this.parkingsRepository.findByName(booking.getParkingspot().getParking().getName());
-        Parking parking;
-        if (optionalParking.isPresent()) {
-            parking = optionalParking.get();
-        }
-        else {
-            parking = this.parkingsRepository.save(booking.getParkingspot().getParking());
-        }
-        booking.getParkingspot().setParking(parking);
-
-
-        Optional<Parkingspot> optionalParkingspot = this.parkingspotRepository.findByNumber(booking.getParkingspot().getNumber());
-        Parkingspot parkingspot;
-
-        if (optionalParkingspot.isPresent()) {
-            parkingspot = optionalParkingspot.get();
-        }
-        else {
-
-            parkingspot = this.parkingspotRepository.save(booking.getParkingspot());
-        }
-        car.setProfile(profile);
         booking.setCar(car);
-        booking.setParkingspot(parkingspot);
-        booking.setProfile(profile);
+
 
 
 
         this.bookingRepository.save(booking);
+
     }
+
+
+
 
     public List<Booking> getAllBookings() {
         return this.bookingRepository.findAll();
     }
+
 
 }
