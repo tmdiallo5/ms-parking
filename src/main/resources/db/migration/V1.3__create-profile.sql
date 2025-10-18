@@ -5,7 +5,7 @@ create table
               first_Name varchar(30),
               last_Name varchar(30),
               email varchar(30),
-              password varchar(30),
+              password varchar(255),
               address_id int,
               constraint fk_client_addresses foreign key (address_id) references addresses (id)
 );

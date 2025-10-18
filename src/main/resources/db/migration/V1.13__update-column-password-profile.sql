@@ -1,1 +1,0 @@
-alter table profile modify password varchar(255);

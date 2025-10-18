@@ -17,7 +17,7 @@ public class Parkingspot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String number;
+    private String spot;
     private String type;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "parking_id")
