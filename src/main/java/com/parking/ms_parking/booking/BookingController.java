@@ -24,4 +24,20 @@ public class BookingController {
     public List<Booking> getAllBookings() {
         return this.bookingService.getAllBookings();
     }
+    @GetMapping(path = "{id}")
+    public Booking getBookingById(@PathVariable int id) {
+       return this.bookingService.getBookingById(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping(path = "{id}")
+    public Booking updateBooking(@PathVariable int id, @RequestBody Booking booking) {
+           return this.bookingService.updateBooking(id, booking);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "{id}")
+    public void deleteBooking(@PathVariable int id) {
+        this.bookingService.deleteBooking(id);
+    }
 }

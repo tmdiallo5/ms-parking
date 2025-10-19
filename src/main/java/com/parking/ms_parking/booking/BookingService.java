@@ -8,6 +8,7 @@ import com.parking.ms_parking.parkingspot.ParkingspotRepository;
 import com.parking.ms_parking.profiles.*;
 import com.parking.ms_parking.security.services.SecurityService;
 import com.parking.ms_parking.shared.services.AddressesRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -112,11 +113,31 @@ public class BookingService {
     }
 
 
-
-
     public List<Booking> getAllBookings() {
         return this.bookingRepository.findAll();
     }
+
+    public Booking getBookingById(int id) {
+        Optional<Booking> booking = this.bookingRepository.findById(id);
+        if (booking.isPresent()) {
+            return booking.get();
+        }
+        throw new EntityNotFoundException("Booking not found");
+    }
+
+    public Booking updateBooking(int id, Booking booking) {
+       Booking booking1 = this.getBookingById(id);
+       booking1.setStartDateTime(booking.getStartDateTime());
+       booking1.setEndDateTime(booking.getEndDateTime());
+       booking1.setParkingspot(booking.getParkingspot());
+
+       return bookingRepository.save(booking1);
+    }
+
+    public void deleteBooking(int id) {
+        this.bookingRepository.deleteById(id);
+    }
+
 
 
 }
