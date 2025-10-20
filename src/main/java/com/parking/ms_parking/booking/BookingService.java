@@ -1,9 +1,11 @@
 package com.parking.ms_parking.booking;
 
 import com.parking.ms_parking.car.Car;
+import com.parking.ms_parking.car.CarDto;
 import com.parking.ms_parking.car.CarRepository;
 import com.parking.ms_parking.parking.ParkingsRepository;
 import com.parking.ms_parking.parkingspot.Parkingspot;
+import com.parking.ms_parking.parkingspot.ParkingspotDto;
 import com.parking.ms_parking.parkingspot.ParkingspotRepository;
 import com.parking.ms_parking.profiles.*;
 import com.parking.ms_parking.security.services.SecurityService;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -26,7 +30,7 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final ProfileRepository profileRepository;
     private final SecurityService securityService;
-
+    private final BookingMapper bookingMapper;
 
     private boolean checkBookingPossible (Booking booking){
         for (Booking availableBooking : bookingRepository.findAll()){
@@ -113,25 +117,28 @@ public class BookingService {
     }
 
 
-    public List<Booking> getAllBookings() {
-        return this.bookingRepository.findAll();
+    public Set<BookingDto> getAllBookings() {
+        List<Booking> bookings = this.bookingRepository.findAll();
+       return bookings.stream().map(this.bookingMapper::entityToDto).collect(Collectors.toSet());
     }
 
-    public Booking getBookingById(int id) {
-        Optional<Booking> booking = this.bookingRepository.findById(id);
-        if (booking.isPresent()) {
-            return booking.get();
-        }
-        throw new EntityNotFoundException("Booking not found");
+    public BookingDto rechercheByID(int id) {
+        Booking bookingEntity  = this.bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        return bookingMapper.entityToDto(bookingEntity);
     }
+
+
 
     public Booking updateBooking(int id, Booking booking) {
-       Booking booking1 = this.getBookingById(id);
-       booking1.setStartDateTime(booking.getStartDateTime());
-       booking1.setEndDateTime(booking.getEndDateTime());
-       booking1.setParkingspot(booking.getParkingspot());
+      Booking booking1 = this.bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
+      booking1.setStartDateTime(booking.getStartDateTime());
+      booking1.setEndDateTime(booking.getEndDateTime());
+      booking1.setStatus(booking.getStatus());
+      booking1.setParkingspot(booking.getParkingspot());
 
-       return bookingRepository.save(booking1);
+
+      return this.bookingRepository.save(booking1);
     }
 
     public void deleteBooking(int id) {
