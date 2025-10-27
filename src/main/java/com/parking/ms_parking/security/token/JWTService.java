@@ -24,6 +24,7 @@ public class JWTService {
                 .expiresAt(now.plus(5, ChronoUnit.HOURS))
                 .subject(authentication.getName())
                 .claim("username", authentication.getName())
+                .claim("role", authentication.getAuthorities())
                 .issuer("self")
                 .build();
        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();

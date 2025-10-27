@@ -4,7 +4,6 @@ create table
                    id int auto_increment primary key,
                    start_date_time DATETIME,
                    end_date_time DATETIME,
-                   status varchar(15),
                    car_id int,
                    parkingspot_id int,
                    profile_id int,

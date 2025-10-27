@@ -1,6 +1,6 @@
 package com.parking.ms_parking.shared.enums;
 
-public enum Status {
-    AVAILABLE,
+public enum StatusEnum {
     BOOKED,
+    FREE,
 }
