@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AddressesRepository extends JpaRepository<Address, Integer> {
-    List<Address> findByTagAndStreetAndCityAndZipAndCountry(String tag, String street, String city, String zip, String country);
+
 
 }

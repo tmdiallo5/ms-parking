@@ -8,7 +8,7 @@ import com.parking.ms_parking.parkingspot.ParkingspotRepository;
 import com.parking.ms_parking.profiles.*;
 import com.parking.ms_parking.security.services.SecurityService;
 import com.parking.ms_parking.shared.enums.StatusEnum;
-import com.parking.ms_parking.shared.services.AddressesRepository;
+
 
 import com.parking.ms_parking.status.Status;
 import com.parking.ms_parking.status.StatusRepository;
@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 public class BookingService {
 
     private final ParkingsRepository parkingsRepository;
-    private final AddressesRepository addressesRepository;
     private final ParkingspotRepository parkingspotRepository;
     private final CarRepository carRepository;
     private final BookingRepository bookingRepository;

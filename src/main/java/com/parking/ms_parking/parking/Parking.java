@@ -1,5 +1,6 @@
 package com.parking.ms_parking.parking;
 
+import com.parking.ms_parking.profiles.Profile;
 import com.parking.ms_parking.shared.entities.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,12 @@ public class Parking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @ManyToOne
+    @JoinColumn(name = "profile_id")
+    private Profile owner;
 
 }
