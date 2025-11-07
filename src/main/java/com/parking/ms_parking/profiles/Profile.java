@@ -44,13 +44,16 @@ public class Profile implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-        //add Roles
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
 
-        //add permissions
-        for (Permission permission : role.getPermissions()) {
-            authorities.add(new SimpleGrantedAuthority(permission.getName()));
+            //add Roles
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
+
+            //add permissions
+            for (Permission permission : role.getPermissions()) {
+                authorities.add(new SimpleGrantedAuthority(permission.getName()));
+
         }
+
         return authorities;
     }
 

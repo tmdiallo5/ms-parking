@@ -17,11 +17,12 @@ public class ParkingService {
     private final ParkingsRepository parkingsRepository;
     private final RolesRepository rolesRepository;
     private final ProfileRepository profileRepository;
-    private final ParkingSpotService parkingSpotService;
+
 
     public void createParking(Parking parking) {
        Profile profile =  this.securityService.getCurrentProfile();
        parking.setOwner(profile);
+
        Role role =  this.rolesRepository.findByName("PARKING_MANAGER");
        profile.setRole(role);
        profileRepository.save(profile);
