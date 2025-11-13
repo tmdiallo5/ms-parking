@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 @AllArgsConstructor
 @Slf4j
 @RestController
@@ -17,5 +20,11 @@ public class ParkingController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createParking(@RequestBody Parking parking) {
         this.parkingService.createParking(parking);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    Set<ParkingDto> getAllParking (){
+        return this.parkingService.getAllParking();
     }
 }
