@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @Slf4j
@@ -21,5 +22,9 @@ public class PrkingSpotController {
     @PostMapping(path = "{parkingId}")
     public void createParkingSpot(@PathVariable int parkingId, @RequestBody  List<Parkingspot> parkingspot) {
         this.parkingSpotService.createParkingSpot(parkingId,parkingspot);
+    }
+    @GetMapping(path = "{parkingId}")
+    public Set<ParkingspotDto> getParkingSpots(@PathVariable int parkingId) {
+        return this.parkingSpotService.getParkingspot(parkingId);
     }
 }
