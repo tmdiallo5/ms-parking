@@ -17,9 +17,9 @@ public class BookingController {
     private final BookingService bookingService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createBooking(@RequestBody Booking booking) {
-        this.bookingService.createBooking(booking);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public BookingDto createBooking(@RequestBody Booking booking) {
+       return this.bookingService.createBooking(booking);
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Set<BookingDto> getAllBookings() {

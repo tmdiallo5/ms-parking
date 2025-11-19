@@ -80,7 +80,7 @@ public class BookingService {
 
     }
 
-    public void createBooking(Booking booking) {
+    public BookingDto createBooking(Booking booking) {
 
        Profile profile =  this.securityService.getCurrentProfile();
         booking.setProfile(profile);
@@ -127,9 +127,8 @@ public class BookingService {
         booking.setCar(car);
 
 
-
-
-        this.bookingRepository.save(booking);
+        Booking saved = this.bookingRepository.save(booking);
+        return bookingMapper.entityToDto(saved);
 
     }
 
