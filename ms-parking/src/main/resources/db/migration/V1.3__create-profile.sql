@@ -4,5 +4,7 @@ create table profile (
      last_Name varchar(30),
      email varchar(30),
      password varchar(255),
-     role varchar(30)
+     role_id int,
+     constraint fk_profile_role foreign key (role_id) references roles(id)
+
 );

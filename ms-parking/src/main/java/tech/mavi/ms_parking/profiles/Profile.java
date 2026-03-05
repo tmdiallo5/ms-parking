@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tech.mavi.ms_parking.shared.enums.Role;
 
 @Getter
 @Setter
@@ -13,15 +12,17 @@ import tech.mavi.ms_parking.shared.enums.Role;
 @AllArgsConstructor
 @Entity
 @Table(name = "profile")
-public class profile {
+public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
 }
+
