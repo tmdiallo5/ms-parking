@@ -1,3 +1,15 @@
+
 logging:
   level:
+    org.springframework.security: trace
     tech.mavi: trace
+spring:
+  datasource:
+    username: root
+    password: Dtm10185GMYS
+    url: jdbc:mysql://localhost:3306/db-parking
+  jpa:
+    show-sql: true
+  sql:
+    init:
+      mode: always

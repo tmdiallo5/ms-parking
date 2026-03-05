@@ -8,15 +8,7 @@ import org.springframework.boot.jdbc.autoconfigure.DataSourceTransactionManagerA
 import org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration;
 import org.springframework.boot.security.autoconfigure.actuate.web.servlet.ManagementWebSecurityAutoConfiguration;
 
-@SpringBootApplication(
-		exclude = {
-
-				ManagementWebSecurityAutoConfiguration.class,
-				DataSourceTransactionManagerAutoConfiguration.class,
-				DataSourceAutoConfiguration.class,
-				HibernateJpaAutoConfiguration.class
-		}
-)
+@SpringBootApplication
 public class MsParkingApplication {
 
 	public static void main(String[] args) {
