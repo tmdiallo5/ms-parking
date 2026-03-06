@@ -13,3 +13,8 @@ spring:
   sql:
     init:
       mode: always
+  jackson:
+    default-property-inclusion: non_null
+server:
+  servlet:
+    context-path: /api
