@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,4 +23,16 @@ public class ProfileService {
         List<Profile> profiles =  profileRepository.findAll();
       return   profiles.stream().map(this.profileMapper::entityToDto).collect(Collectors.toSet());
     }
+
+    public Profile readProfileById(int id) {
+        Optional<Profile> profileOptional = profileRepository.findById(id);
+        return profileOptional.orElse(null);
+    }
+
+    public void deleteProfile(int id) {
+        Profile profile = readProfileById(id);
+        profileRepository.delete(profile);
+    }
+
+
 }

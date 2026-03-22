@@ -23,5 +23,15 @@ public class ProfileController {
         return this.profileService.getAllprofiles();
     }
 
+    @GetMapping(path = "{id}")
+    public Profile readProfileById(@PathVariable int id) {
+        return this.profileService.readProfileById(id);
+    }
+
+    @DeleteMapping(path = "{id}")
+    public void deleteProfile(@PathVariable int id){
+        this.profileService.deleteProfile(id);
+    }
+
 
 }
