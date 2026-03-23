@@ -5,6 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import tech.mavi.ms_parking.profiles.*;
+import tech.mavi.ms_parking.security.activations.Activation;
+import tech.mavi.ms_parking.security.activations.ActivationsService;
+
+import java.util.Map;
 
 @Slf4j
 @AllArgsConstructor
@@ -15,6 +19,7 @@ public class AuthentificationService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final ProfileRepository profileRepository;
     private final RolesRepository rolesRepository;
+    private final ActivationsService activationsService;
 
 
     public void create(ProfileDTO profileDTO) {
@@ -25,6 +30,15 @@ public class AuthentificationService {
         Role role = this.rolesRepository.findByName("CLIENT");
         profile.setRole(role);
 
-        this.profileRepository.save(profile);
+        profile = this.profileRepository.save(profile);
+        Activation activation = this.activationsService.create(profile);
+
+        log.info("The activations code for {} is {}", profile.getEmail(), activation.getUserCode());
+    }
+
+    public void activate(Map<String, String> parameters) {
+      Profile profile = this.activationsService.validateAndReturnProfile(parameters);
+      profile.setActive(true);
+      this.profileRepository.save(profile);
     }
 }

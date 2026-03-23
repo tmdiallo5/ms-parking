@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import tech.mavi.ms_parking.profiles.Profile;
 import tech.mavi.ms_parking.profiles.ProfileDTO;
 
+import java.util.Map;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @AllArgsConstructor
@@ -19,5 +21,11 @@ public class AuthentificationController {
     @PostMapping(path = "sign-up")
     public void create(@RequestBody ProfileDTO profileDTO){
         this.authentificationService.create(profileDTO);
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping(path = "activate")
+    public void activate(@RequestBody Map<String, String> parameters){
+        this.authentificationService.activate(parameters);
     }
 }
