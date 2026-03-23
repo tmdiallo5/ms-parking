@@ -29,7 +29,7 @@ public class ActivationsService {
                 .userCode(userCode)
                 .code(passwordEncoder.encode("" + userCode))
                 .creation(LocalDateTime.now())
-                .desactivation(LocalDateTime.now().plusHours(1))
+                .desactivation(LocalDateTime.now().plusMinutes(10))
                 .profile(profile)
                 .build();
 

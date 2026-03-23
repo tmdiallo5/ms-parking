@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import tech.mavi.ms_parking.notifications.EmailsServce;
 import tech.mavi.ms_parking.profiles.*;
 import tech.mavi.ms_parking.security.activations.Activation;
 import tech.mavi.ms_parking.security.activations.ActivationsService;
@@ -19,6 +20,7 @@ public class AuthentificationService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final ProfileRepository profileRepository;
     private final RolesRepository rolesRepository;
+    private final EmailsServce emailsServce;
     private final ActivationsService activationsService;
 
 
@@ -33,7 +35,14 @@ public class AuthentificationService {
         profile = this.profileRepository.save(profile);
         Activation activation = this.activationsService.create(profile);
 
-        log.info("The activations code for {} is {}", profile.getEmail(), activation.getUserCode());
+        this.emailsServce.send(
+                Map.of(
+                        "email", profile.getEmail(),
+                        "name", String.format("%s %s", profile.getFirstName(), profile.getLastName()),
+                        "code", "" + activation.getUserCode(),
+                        "template", "activation-code.ftl"
+                )
+        );
     }
 
     public void activate(Map<String, String> parameters) {
