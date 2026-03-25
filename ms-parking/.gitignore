@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 application-local.yml
-ms-parking/src/main/java/tech/mavi/ms_parking/security/LocalSecurityConfig.java
+
 
 ### STS ###
 .apt_generated
