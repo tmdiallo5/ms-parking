@@ -2,6 +2,9 @@ package tech.mavi.ms_parking.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import tech.mavi.ms_parking.notifications.EmailsServce;
@@ -14,7 +17,7 @@ import java.util.Map;
 @Slf4j
 @AllArgsConstructor
 @Service
-public class AuthentificationService {
+public class AuthentificationService implements UserDetailsService {
 
     private final ProfileMapper profileMapper;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -49,5 +52,10 @@ public class AuthentificationService {
       Profile profile = this.activationsService.validateAndReturnProfile(parameters);
       profile.setActive(true);
       this.profileRepository.save(profile);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.profileRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("No User Found"));
     }
 }
