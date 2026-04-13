@@ -18,6 +18,11 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
+    @GetMapping(path = "read", produces = APPLICATION_JSON_VALUE)
+    public ProfileDTO getCurrentUser() {
+        return this.profileService.getCurrentUser();
+    }
+
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public Set<ProfileDTO> getAllProfiles() {
         return this.profileService.getAllprofiles();

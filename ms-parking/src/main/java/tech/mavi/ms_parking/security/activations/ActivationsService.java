@@ -2,8 +2,10 @@ package tech.mavi.ms_parking.security.activations;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import tech.mavi.ms_parking.profiles.Profile;
 
 import java.time.LocalDateTime;
@@ -38,17 +40,20 @@ public class ActivationsService {
     }
 
     public Profile validateAndReturnProfile(Map<String, String> parameters) {
-        List<Activation> activations = this.activationsRepository.findByActiveAndDesactivationAfter(
+        String email = parameters.get("email");
+        String code = parameters.get("code");
+        List<Activation> activations = this.activationsRepository.findByProfileEmailAndActiveAndDesactivationAfter(
+                    email,
                 true,
                 LocalDateTime.now()
         );
         activations = activations.stream().filter(
                 activation -> passwordEncoder.matches(
-                        parameters.get("code"),
+                        code,
                         activation.getCode()
         )).toList();
         if (activations.isEmpty()) {
-            throw new RuntimeException("No activation found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid activation code");
         }
         Activation activation = activations.getFirst();
         activation.setActive(false);

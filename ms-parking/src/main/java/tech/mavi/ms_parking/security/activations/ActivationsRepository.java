@@ -6,5 +6,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ActivationsRepository extends JpaRepository<Activation, Integer> {
-    List<Activation> findByActiveAndDesactivationAfter(boolean active, LocalDateTime desactivation);
+    List<Activation> findByProfileEmailAndActiveAndDesactivationAfter(String email, boolean active, LocalDateTime desactivation);
 }

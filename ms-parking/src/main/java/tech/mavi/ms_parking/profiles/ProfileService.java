@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import tech.mavi.ms_parking.security.service.SecurityService;
 
 import javax.swing.text.html.Option;
 import java.util.List;
@@ -18,6 +19,7 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
     private final ProfileMapper profileMapper;
+    private final SecurityService securityService;
 
     public Set<ProfileDTO> getAllprofiles() {
         List<Profile> profiles =  profileRepository.findAll();
@@ -35,4 +37,8 @@ public class ProfileService {
     }
 
 
+    public ProfileDTO getCurrentUser() {
+      Profile profile =   this.securityService.getCurrentUser();
+      return this.profileMapper.entityToDto(profile);
+    }
 }

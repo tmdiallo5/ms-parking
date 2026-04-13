@@ -6,7 +6,5 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Optional;
 
 public interface ProfileRepository extends JpaRepository<Profile, Integer> {
-    Profile deleteById(int id);
-
-    Optional<Profile>findByEmail(String username);
+     Optional<Profile>findByEmail(String username);
 }
