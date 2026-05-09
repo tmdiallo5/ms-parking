@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import tech.mavi.ms_parking.reservations.Reservation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,10 +28,11 @@ public class Profile implements UserDetails {
     private String password;
     private boolean active = false;
 
-
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+    @OneToMany(mappedBy = "profile")
+    private List<Reservation> reservations;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
