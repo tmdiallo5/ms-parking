@@ -4,10 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tech.mavi.ms_parking.enums.ReservationStatus;
+import tech.mavi.ms_parking.parkings.Parking;
+import tech.mavi.ms_parking.parkings.ParkingRepository;
 import tech.mavi.ms_parking.profiles.Profile;
 import tech.mavi.ms_parking.security.service.SecurityService;
+import tech.mavi.ms_parking.spots.AvailableSpotResponseDto;
 import tech.mavi.ms_parking.spots.Spot;
 import tech.mavi.ms_parking.spots.SpotRepository;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
@@ -17,7 +24,10 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final SecurityService securityService;
     private final SpotRepository spotRepository;
-    private ReservationMapper reservationMapper;
+    private final ReservationMapper reservationMapper;
+    private final ParkingRepository parkingRepository;
+
+
 
 
     public boolean checkReservationPossible(Reservation reservation) {
@@ -60,4 +70,46 @@ public class ReservationService {
 
         return reservationMapper.toDto(savedReservation);
     }
+
+
+    public List<AvailableSpotResponseDto> findAvailableSpot(String address, LocalDateTime from, LocalDateTime until) {
+        if (from.isAfter(until) || from.isEqual(until)){
+            throw new RuntimeException("From and Until are not valid");
+        }
+
+        List<AvailableSpotResponseDto> availableSpots = new ArrayList<>();
+
+        List<Parking> parkings = this.parkingRepository.findByAddressCityContainsOrAddressStreetContainsOrAddressZipContains(address, address, address);
+
+        for (Parking parking : parkings) {
+           List<Spot> spots = parking.getSpots();
+           List<Integer> spotIds = spots.stream().map(Spot::getId).toList();
+           List<Reservation> blockedReservations = this.reservationRepository
+                   .findBySpotIdInAndReservationStatusAndStartDateTimeBeforeAndEndDateTimeAfter(spotIds, ReservationStatus.CONFIRMED, from, until);
+           List<Integer> blockedReservedSpotIds = blockedReservations.stream().map(Reservation::getId).toList();
+           for (Spot spot : spots) {
+               if (!blockedReservedSpotIds.contains(spot.getId())) {
+                   AvailableSpotResponseDto dto = new AvailableSpotResponseDto(
+                           spot.getId(),
+                           spot.getNumber(),
+                           spot.getSpotType().name(),
+                           parking.getName(),
+                           parking.getPricePerHour(),
+                           parking.getLatitude(),
+                           parking.getLongitude(),
+                           parking.getAddress().getStreet() + "," +
+                                   parking.getAddress().getZip() + "," +
+                                   parking.getAddress().getCity(),
+                           from,
+                           until
+                   );
+                   availableSpots.add(dto);
+               }
+           }
+        }
+
+        return availableSpots;
+    }
 }
+
+
