@@ -13,22 +13,22 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("reservation")
+@RequestMapping(consumes = APPLICATION_JSON_VALUE)
 @RestController
 public class ReservationController {
 
     private final ReservationService reservationService;
 
 
-    @PostMapping(consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(path = "reservation")
     public ReservationResponseDto createReservation(@RequestBody ReservationRequestDto reservationDto) {
         return this.reservationService.createReservation(reservationDto);
     }
 
-    @PostMapping(path = "/available-spot", consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(path = "available-spot")
     public List<AvailableSpotResponseDto> findAvailableSpot(@RequestBody AvailableSpotRequestDto availableSpotRequestDto) {
         return this.reservationService.findAvailableSpot(
-                availableSpotRequestDto.address(),
+                availableSpotRequestDto.addressId(),
                 availableSpotRequestDto.from(),
                 availableSpotRequestDto.until()
         );

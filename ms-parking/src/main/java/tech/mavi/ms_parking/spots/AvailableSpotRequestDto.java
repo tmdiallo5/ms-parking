@@ -3,7 +3,7 @@ package tech.mavi.ms_parking.spots;
 import java.time.LocalDateTime;
 
 public record AvailableSpotRequestDto(
-        String address,
+        Long addressId,
         LocalDateTime from,
         LocalDateTime until
 

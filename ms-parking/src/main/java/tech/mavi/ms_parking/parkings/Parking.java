@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tech.mavi.ms_parking.enums.ParkingStatus;
-import tech.mavi.ms_parking.shared.entities.Address;
+import tech.mavi.ms_parking.shared.entities.address.Address;
 import tech.mavi.ms_parking.spots.Spot;
 
 import java.util.List;

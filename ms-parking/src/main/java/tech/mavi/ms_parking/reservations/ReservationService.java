@@ -72,14 +72,14 @@ public class ReservationService {
     }
 
 
-    public List<AvailableSpotResponseDto> findAvailableSpot(String address, LocalDateTime from, LocalDateTime until) {
+    public List<AvailableSpotResponseDto> findAvailableSpot(Long addressId, LocalDateTime from, LocalDateTime until) {
         if (from.isAfter(until) || from.isEqual(until)){
             throw new RuntimeException("From and Until are not valid");
         }
 
         List<AvailableSpotResponseDto> availableSpots = new ArrayList<>();
 
-        List<Parking> parkings = this.parkingRepository.findByAddressCityContainsOrAddressStreetContainsOrAddressZipContains(address, address, address);
+        List<Parking> parkings = this.parkingRepository.findByAddressId(addressId);
 
         for (Parking parking : parkings) {
            List<Spot> spots = parking.getSpots();

@@ -57,6 +57,8 @@ public class ApplicationSecurity {
                                                     .requestMatchers(HttpMethod.POST,"/sign-up").permitAll()
                                                     .requestMatchers(HttpMethod.POST,"/sign-in").permitAll()
                                                     .requestMatchers(HttpMethod.POST,"/activate").permitAll()
+                                                    .requestMatchers(HttpMethod.GET,"/search-address").permitAll()
+                                                    .requestMatchers(HttpMethod.POST,"/available-spot").permitAll()
                                                     .anyRequest().authenticated()
                             )
                             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

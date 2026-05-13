@@ -10,4 +10,5 @@ public interface ParkingRepository extends JpaRepository<Parking, Integer> {
             String street,
             String zip
     );
+    List<Parking> findByAddressId(Long addressId);
 }

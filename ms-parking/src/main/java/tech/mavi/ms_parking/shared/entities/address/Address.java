@@ -1,4 +1,4 @@
-package tech.mavi.ms_parking.shared.entities;
+package tech.mavi.ms_parking.shared.entities.address;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
