@@ -2,6 +2,7 @@ package tech.mavi.ms_parking.reservations;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import tech.mavi.ms_parking.enums.ReservationStatus;
+import tech.mavi.ms_parking.profiles.Profile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,5 +14,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             LocalDateTime until,
             LocalDateTime from
     );
+
+    List<Reservation> findByProfile(Profile profile);
 
 }

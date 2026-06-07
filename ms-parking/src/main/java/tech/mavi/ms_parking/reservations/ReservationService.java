@@ -15,6 +15,8 @@ import tech.mavi.ms_parking.spots.SpotRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -109,6 +111,12 @@ public class ReservationService {
         }
 
         return availableSpots;
+    }
+
+    public Set<ReservationDTO> myReservations() {
+       Profile currentProfile =  securityService.getCurrentUser();
+       return this.reservationRepository.findByProfile(currentProfile)
+               .stream().map(reservationMapper::toReservationDto).collect(Collectors.toSet());
     }
 }
 
