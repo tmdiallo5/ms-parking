@@ -2,6 +2,7 @@ package tech.mavi.ms_parking.reservations;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import tech.mavi.ms_parking.spots.AvailableSpotRequestDto;
 import tech.mavi.ms_parking.spots.AvailableSpotResponseDto;
@@ -38,6 +39,11 @@ public class ReservationController {
     @GetMapping(path = "my-reservations", produces = APPLICATION_JSON_VALUE)
     public Set<ReservationDTO> myReservations(){
         return this.reservationService.myReservations();
+    }
+    @PatchMapping("cancel/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ReservationResponseDto cancelReservation(@PathVariable("id") int id) {
+        return this.reservationService.cancelReservation(id);
     }
 
 }

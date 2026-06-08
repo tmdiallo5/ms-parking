@@ -15,6 +15,7 @@ import tech.mavi.ms_parking.spots.SpotRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ public class ReservationService {
     private final SpotRepository spotRepository;
     private final ReservationMapper reservationMapper;
     private final ParkingRepository parkingRepository;
+
 
 
 
@@ -117,6 +119,19 @@ public class ReservationService {
        Profile currentProfile =  securityService.getCurrentUser();
        return this.reservationRepository.findByProfile(currentProfile)
                .stream().map(reservationMapper::toReservationDto).collect(Collectors.toSet());
+    }
+
+    public ReservationResponseDto cancelReservation(int id) {
+        Profile currentProfile = securityService.getCurrentUser();
+        Reservation reservation = this.reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation not found"));
+        if (!reservation.getProfile().getId().equals(currentProfile.getId())) {
+            throw new RuntimeException("You are not allowed to cancel this reservation");
+        }
+        reservation.setReservationStatus(ReservationStatus.CANCELLED);
+        reservation.setCancelledAt(LocalDateTime.now());
+       Reservation reservationSaved = this.reservationRepository.save(reservation);
+       return reservationMapper.toDto(reservationSaved);
     }
 }
 

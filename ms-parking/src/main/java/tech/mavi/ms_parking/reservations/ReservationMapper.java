@@ -33,7 +33,8 @@ public class ReservationMapper {
                 reservation.getSpot().getNumber(),
                 reservation.getStartDateTime(),
                 reservation.getEndDateTime(),
-                reservation.getReservationStatus()
+                reservation.getReservationStatus(),
+                reservation.getCancelledAt()
         );
     }
 }

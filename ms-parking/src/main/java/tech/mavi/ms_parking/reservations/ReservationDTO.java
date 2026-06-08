@@ -10,7 +10,8 @@ public record ReservationDTO(
         String spotNumber,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime,
-        ReservationStatus reservationStatus
+        ReservationStatus reservationStatus,
+        LocalDateTime cancelledAt
 
 ) {
 }
