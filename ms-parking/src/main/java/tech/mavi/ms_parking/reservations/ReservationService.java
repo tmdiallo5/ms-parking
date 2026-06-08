@@ -117,6 +117,15 @@ public class ReservationService {
 
     public Set<ReservationDTO> myReservations() {
        Profile currentProfile =  securityService.getCurrentUser();
+       List<Reservation> reservations = reservationRepository.findByProfile(currentProfile);
+       LocalDateTime now = LocalDateTime.now();
+       for (Reservation reservation : reservations) {
+           if (reservation.getReservationStatus() == ReservationStatus.CONFIRMED
+               && reservation.getEndDateTime().isBefore(now)) {
+               reservation.setReservationStatus(ReservationStatus.COMPLETED);
+           }
+       }
+       reservationRepository.saveAll(reservations);
        return this.reservationRepository.findByProfile(currentProfile)
                .stream().map(reservationMapper::toReservationDto).collect(Collectors.toSet());
     }
