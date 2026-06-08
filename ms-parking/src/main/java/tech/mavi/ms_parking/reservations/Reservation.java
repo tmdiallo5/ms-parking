@@ -26,6 +26,7 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
     private LocalDateTime cancelledAt;
+    private LocalDateTime createdAt;
     @ManyToOne
     private Profile profile;
     @ManyToOne

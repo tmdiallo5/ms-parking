@@ -70,6 +70,7 @@ public class ReservationService {
         if (!checkReservationPossible(reservation)) {
             throw new RuntimeException("Reservation is not possible");
         }
+        reservation.setCreatedAt(LocalDateTime.now());
         Reservation savedReservation = this.reservationRepository.save(reservation);
 
         return reservationMapper.toDto(savedReservation);

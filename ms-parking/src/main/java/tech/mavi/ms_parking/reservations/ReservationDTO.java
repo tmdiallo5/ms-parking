@@ -11,7 +11,8 @@ public record ReservationDTO(
         LocalDateTime startDateTime,
         LocalDateTime endDateTime,
         ReservationStatus reservationStatus,
-        LocalDateTime cancelledAt
+        LocalDateTime cancelledAt,
+        LocalDateTime createdAt
 
 ) {
 }

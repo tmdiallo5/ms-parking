@@ -34,7 +34,8 @@ public class ReservationMapper {
                 reservation.getStartDateTime(),
                 reservation.getEndDateTime(),
                 reservation.getReservationStatus(),
-                reservation.getCancelledAt()
+                reservation.getCancelledAt(),
+                reservation.getCreatedAt()
         );
     }
 }
