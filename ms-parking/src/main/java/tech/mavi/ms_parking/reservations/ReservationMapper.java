@@ -1,9 +1,7 @@
 package tech.mavi.ms_parking.reservations;
 
 import org.springframework.stereotype.Component;
-import tech.mavi.ms_parking.enums.ReservationStatus;
 
-import java.time.LocalDateTime;
 
 @Component
 public class ReservationMapper {
@@ -23,13 +21,16 @@ public class ReservationMapper {
                 reservation.getEndDateTime(),
                 reservation.getReservationStatus(),
                 reservation.getSpot().getId()
+
         );
     }
 
     public ReservationDTO toReservationDto(Reservation reservation){
         return new ReservationDTO(
                 reservation.getId(),
+                reservation.getSpot().getParking().getId(),
                 reservation.getSpot().getParking().getName(),
+                reservation.getSpot().getId(),
                 reservation.getSpot().getNumber(),
                 reservation.getStartDateTime(),
                 reservation.getEndDateTime(),
@@ -38,4 +39,6 @@ public class ReservationMapper {
                 reservation.getCreatedAt()
         );
     }
+
+
 }

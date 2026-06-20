@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import tech.mavi.ms_parking.spots.AvailableSpotRequestDto;
 import tech.mavi.ms_parking.spots.AvailableSpotResponseDto;
 
+import tech.mavi.ms_parking.spots.SpotResponseDto;
 
+
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -31,19 +34,32 @@ public class ReservationController {
     public List<AvailableSpotResponseDto> findAvailableSpot(@RequestBody AvailableSpotRequestDto availableSpotRequestDto) {
         return this.reservationService.findAvailableSpot(
                 availableSpotRequestDto.addressId(),
-                availableSpotRequestDto.from(),
-                availableSpotRequestDto.until()
+                availableSpotRequestDto.startDateTime(),
+                availableSpotRequestDto.endDateTime()
         );
     }
 
     @GetMapping(path = "my-reservations", produces = APPLICATION_JSON_VALUE)
-    public Set<ReservationDTO> myReservations(){
+    public List<ReservationDTO> myReservations(){
         return this.reservationService.myReservations();
     }
-    @PatchMapping("cancel/{id}")
+    @PatchMapping(path = "cancel/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ReservationResponseDto cancelReservation(@PathVariable("id") int id) {
+    public ReservationResponseDto cancelReservation(@PathVariable int id) {
         return this.reservationService.cancelReservation(id);
+    }
+    @PutMapping(path = "update/{id}" )
+    public ReservationResponseDto reservationUpdate(@PathVariable int id, @RequestBody ReservationUpdateRequest reservationUpdateRequest) {
+        return this.reservationService.reservationUpdate(id, reservationUpdateRequest);
+    }
+    @GetMapping(path = "available-spot/{parkingId}")
+    public List<SpotResponseDto> availableSpotsByParking(
+            @PathVariable int parkingId,
+            @RequestParam LocalDateTime startDateTime,
+            @RequestParam LocalDateTime endDateTime,
+            @RequestParam int currentReservationId
+            ){
+        return this.reservationService.availableSpotsByParking(parkingId, startDateTime, endDateTime, currentReservationId);
     }
 
 }

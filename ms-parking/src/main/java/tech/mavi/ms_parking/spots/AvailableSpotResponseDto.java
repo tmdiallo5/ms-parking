@@ -11,8 +11,8 @@ public record AvailableSpotResponseDto(
         double latitude,
         double longitude,
         String address,
-        LocalDateTime from,
-        LocalDateTime until
+        LocalDateTime startDateTime,
+        LocalDateTime endDateTime
 ) {
 }
 

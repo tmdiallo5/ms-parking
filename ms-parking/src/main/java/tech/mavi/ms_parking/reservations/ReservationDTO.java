@@ -6,7 +6,9 @@ import java.time.LocalDateTime;
 
 public record ReservationDTO(
         int id,
+        int parkingId,
         String parkingName,
+        int spotId,
         String spotNumber,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime,
@@ -16,5 +18,7 @@ public record ReservationDTO(
 
 ) {
 }
+
+
 
 

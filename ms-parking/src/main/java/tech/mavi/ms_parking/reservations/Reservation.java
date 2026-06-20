@@ -27,6 +27,7 @@ public class Reservation {
     private ReservationStatus reservationStatus;
     private LocalDateTime cancelledAt;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     @ManyToOne
     private Profile profile;
     @ManyToOne

@@ -1,11 +1,10 @@
-package tech.mavi.ms_parking.spots;
+package tech.mavi.ms_parking.reservations;
 
 import java.time.LocalDateTime;
 
-public record AvailableSpotRequestDto(
-        int addressId,
+public record ReservationUpdateRequest (
+        int spotId,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime
-
-) {
+){
 }

@@ -7,7 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tech.mavi.ms_parking.profiles.Profile;
+
 import tech.mavi.ms_parking.profiles.ProfileDTO;
 import tech.mavi.ms_parking.security.token.JwtService;
 
