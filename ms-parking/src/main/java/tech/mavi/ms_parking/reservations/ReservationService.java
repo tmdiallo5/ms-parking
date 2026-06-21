@@ -104,6 +104,7 @@ public class ReservationService {
                            parking.getAddress().getStreet() + "," +
                                    parking.getAddress().getZip() + "," +
                                    parking.getAddress().getCity(),
+                           parking.getImageUrl(),
                            startDateTime,
                            endDateTime
                    );

@@ -11,6 +11,7 @@ public record AvailableSpotResponseDto(
         double latitude,
         double longitude,
         String address,
+        String imageUrl,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime
 ) {

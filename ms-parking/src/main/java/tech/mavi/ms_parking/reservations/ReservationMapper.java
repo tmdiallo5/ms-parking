@@ -30,13 +30,16 @@ public class ReservationMapper {
                 reservation.getId(),
                 reservation.getSpot().getParking().getId(),
                 reservation.getSpot().getParking().getName(),
+                reservation.getSpot().getParking().getAddress(),
                 reservation.getSpot().getId(),
                 reservation.getSpot().getNumber(),
+                reservation.getSpot().getSpotType(),
                 reservation.getStartDateTime(),
                 reservation.getEndDateTime(),
                 reservation.getReservationStatus(),
                 reservation.getCancelledAt(),
-                reservation.getCreatedAt()
+                reservation.getCreatedAt(),
+                reservation.getSpot().getParking().getImageUrl()
         );
     }
 
