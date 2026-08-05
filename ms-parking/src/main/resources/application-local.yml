@@ -15,6 +15,12 @@ spring:
       mode: always
   jackson:
     default-property-inclusion: non_null
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+       model: gpt-5
+
 server:
   servlet:
     context-path: /api

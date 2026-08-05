@@ -116,6 +116,33 @@ public class ReservationService {
         return availableSpots;
     }
 
+
+    public List<AvailableSpotResponseDto> findAvailableSpotByLocation(
+            String location,
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime
+    ) {
+        return parkingRepository
+                .findByAddressCityContainsOrAddressStreetContainsOrAddressZipContains(
+                        location,
+                        location,
+                        location
+                )
+                .stream()
+                .map(parking -> parking.getAddress().getId())
+                .distinct()
+                    .flatMap(addressId ->
+                            findAvailableSpot(
+                                    addressId,
+                                    startDateTime,
+                                    endDateTime
+                            ).stream()
+                    )
+                    .toList();
+    }
+
+
+
     public List<ReservationDTO> myReservations() {
        Profile currentProfile =  securityService.getCurrentUser();
        List<Reservation> reservations = reservationRepository.findByProfileIdOrderByUpdatedAtDesc(currentProfile.getId());

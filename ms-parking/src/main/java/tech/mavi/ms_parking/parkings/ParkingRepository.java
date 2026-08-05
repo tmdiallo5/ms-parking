@@ -7,4 +7,10 @@ import java.util.List;
 public interface ParkingRepository extends JpaRepository<Parking, Integer> {
     List<Parking> findByAddressId(int addressId);
 
+    List<Parking> findByAddressCityContainsOrAddressStreetContainsOrAddressZipContains(
+            String city,
+            String street,
+            String zip
+    );
+
 }
